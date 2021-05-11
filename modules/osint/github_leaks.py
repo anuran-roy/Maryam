@@ -22,7 +22,7 @@ meta = {
 	'author': 'Aman Singh',
 	'version': '0.1',
 	'description': 'Search your query in the GitHub and show the potentially leaked info.',
-	'sources': ('google', 'carrot2', 'bing', 'yippy', 'yahoo', 'millionshort', 'qwant', 'duckduckgo', 'github'),
+	'sources': ('google', 'carrot2', 'bing','yahoo', 'millionshort', 'qwant', 'duckduckgo', 'github'),
 	'options': (
 		('query', None, True, 'Query string', '-q', 'store', str),
 		('limit', 1, False, 'Search limit(number of pages, default=1)', '-l', 'store', int),
@@ -79,7 +79,6 @@ def search(self, name, q, q_formats, limit, count):
 	engine = getattr(self, name)
 	eng = name
 	q = q_formats[f"{name}"] if f"{name}" in q_formats else q_formats['default']
-	name = engine.__init__.__name__
 	varnames = engine.__init__.__code__.co_varnames
 	if 'limit' in varnames and 'count' in varnames:
 		attr = engine(q, limit, count)
@@ -105,7 +104,6 @@ def module_api(self):
 	engines = self.options['engine'].split(',')
 	q_formats = {
 		'default': f"site:github.com {query}",
-		'yippy': f'"github.com" {query}',
 		'millionshort': f'site:github.com "{query}"',
 		'qwant': f'site:github.com {query}',
 		'github': f'{query}'

@@ -21,7 +21,7 @@ meta = {
 	'author': 'Vikas Kundu',
 	'version': '0.1',
 	'description': 'Search the publicly listed telegram groups for juicy info like emails, phone numbers etc',
-	'sources': ('telegramchannels.me','google', 'carrot2', 'bing', 'yippy', 'yahoo', 'millionshort', 'qwant', 'duckduckgo'),
+	'sources': ('telegramchannels.me','google', 'carrot2', 'bing', 'yahoo', 'millionshort', 'qwant', 'duckduckgo'),
 	'options': (
 		('query', None, True, 'Query string', '-q', 'store', str),
 		('limit', 1, False, 'Search limit(number of pages, default=1)', '-l', 'store', int),
@@ -39,8 +39,7 @@ PAGES = ''
 def search(self, name, q, q_formats, limit, count):
 	global PAGES,LINKS
 	engine = getattr(self, name)
-	name = engine.__init__.__name__
-	q = f"{name}_q" if f"{name}_q" in q_formats else q_formats['default_q']
+	q = q_formats[f"{name}_q"] if f"{name}_q" in q_formats else q_formats['default_q']
 	varnames = engine.__init__.__code__.co_varnames
 	if 'limit' in varnames and 'count' in varnames:
 		attr = engine(q, limit, count)
@@ -88,7 +87,6 @@ def module_api(self):
 	output = {'group-links': [], 'handles': [], 'phone-numbers': []}
 	q_formats = {
 		'default_q': f"site:t.me/joinchat {query}",
-		'yippy_q': f'"t.me/joinchat" {query}',
 		'millionshort_q': f'site:t.me/joinchat "{query}"',
 		'qwant_q': f'site:t.me/joinchat {query}'
 	}

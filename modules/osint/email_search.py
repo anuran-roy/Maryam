@@ -18,7 +18,7 @@ meta = {
 	'version': '1.0',
 	'description': 'Search in open-sources to find emails.',
 	'sources': ('bing', 'pastebin', 'google', 'yahoo', 'yandex', 'metacrawler',
-				'ask', 'baidu', 'startpage', 'yippy', 'qwant', 'duckduckgo', 'hunter', 'gigablast', 'github'),
+				'ask', 'baidu', 'startpage', 'qwant', 'duckduckgo', 'hunter', 'gigablast', 'github'),
 	'options': (
 		('query', None, True, 'Domain name or company name', '-q', 'store', str),
 		('limit', 3, False, 'Search limit(number of pages, default=3)', '-l', 'store', int),
@@ -37,7 +37,6 @@ def search(self, name, q, q_formats, limit, count):
 	global EMAILS
 	engine = getattr(self, name)
 	eng = name
-	name = engine.__init__.__name__
 	varnames = engine.__init__.__code__.co_varnames
 	q = q_formats[f"{eng}"] if f"{eng}" in q_formats else q_formats['default']
 	if 'limit' in varnames and 'count' in varnames:

@@ -23,7 +23,7 @@ meta = {
 	'author': 'Aman Rawat',
 	'version': '0.2',
 	'description': 'Search your query in the quora.com and show the results.',
-	'sources': ('google', 'yahoo', 'bing', 'yippy', 'metacrawler', 'millionshort', 'carrot2', 'qwant', 'duckduckgo'),
+	'sources': ('google', 'yahoo', 'bing', 'metacrawler', 'millionshort', 'carrot2', 'qwant', 'duckduckgo'),
 	'options': (
 		('query', None, True, 'Query string', '-q', 'store', str),
 		('limit', 1, False, 'Search limit(number of pages, default=1)', '-l', 'store', int),
@@ -39,8 +39,7 @@ LINKS = []
 def search(self, name, q, q_formats, limit, count):
 	global LINKS
 	engine = getattr(self, name)
-	name = engine.__init__.__name__
-	q = f"{name}_q" if f"{name}_q" in q_formats else q_formats['default_q']
+	q = q_formats[f"{name}_q"] if f"{name}_q" in q_formats else q_formats['default_q']
 	varnames = engine.__init__.__code__.co_varnames
 	if 'limit' in varnames and 'count' in varnames:
 		attr = engine(q, limit, count)
@@ -62,7 +61,6 @@ def module_api(self):
 	output = {'links': [], 'usernames': []}
 	q_formats = {
 		'default_q': f"site:www.quora.com {query}",
-		'yippy_q': f'"www.quora.com" {query}',
 		'millionshort_q': f'site:www.quora.com "{query}"',
 		'qwant_q': f'site:www.quora.com {query}'
 	}

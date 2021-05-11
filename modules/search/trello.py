@@ -21,7 +21,7 @@ meta = {
 	'author': 'Vikas Kundu',
 	'version': '0.5',
 	'description': 'Search public trello boards for data and show the results.',
-	'sources': ('google', 'carrot2', 'bing', 'yippy', 'yahoo', 'millionshort', 'qwant', 'duckduckgo'),
+	'sources': ('google', 'carrot2', 'bing', 'yahoo', 'millionshort', 'qwant', 'duckduckgo'),
 	'options': (
 		('query', None, True, 'Query string', '-q', 'store', str),
 		('limit', 1, False, 'Search limit(number of pages, default=1)', '-l', 'store', int),
@@ -39,8 +39,7 @@ PAGES = ''
 def search(self, name, q, q_formats, limit, count):
 	global PAGES,LINKS
 	engine = getattr(self, name)
-	name = engine.__init__.__name__
-	q = f"{name}_q" if f"{name}_q" in q_formats else q_formats['default_q']
+	q = q_formats[f"{name}_q"] if f"{name}_q" in q_formats else q_formats['default_q']
 	varnames = engine.__init__.__code__.co_varnames
 	if 'limit' in varnames and 'count' in varnames:
 		attr = engine(q, limit, count)
@@ -61,7 +60,6 @@ def module_api(self):
 	output = {'links': [], 'usernames': [], 'handles': []}
 	q_formats = {
 		'default_q': f"site:trello.com {query}",
-		'yippy_q': f'"trello.com" {query}',
 		'millionshort_q': f'site:trello.com "{query}"',
 		'qwant_q': f'site:trello.com {query}'
 	}
